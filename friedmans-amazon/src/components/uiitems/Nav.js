@@ -38,8 +38,6 @@ export default function Nav() {
         
       </div>
     
-      <div className="navbar-right">
-      </div>
     </header>
     </>
   );
