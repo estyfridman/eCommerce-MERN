@@ -1,0 +1,187 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  display: grid;
+  grid-template-rows: 1fr 8fr 1fr; 
+  height: 100%;
+  width: 100%;
+}
+
+.navbar-all {
+  background-color: #012E4A;
+  padding: 3%;
+}
+
+.navbar-left img {
+  width: 20px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+
+.Myfooter {
+  height: 80rem;
+  background-color: #f5f5f5;
+  text-align: center;
+}
+
+.footer-all {
+  background-color: #012E4A;
+  color: #61dafb;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  grid-gap: 10%; /* adds a gap between grid items */
+  justify-items: center;
+  padding: 2%;
+}
+
+.footer-left {
+  margin-left: 20%;
+}
+/*place-items: center;*/
+
+.form-page {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 80vh;
+  width: 100%;
+	font-family: 'Jost', sans-serif;
+	background-color: #E8EDE7;
+}
+
+.form-wrapper {
+	background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0,0,0,0.2);
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.form-wrapper .title{
+  line-height: 100px;
+  width: 100%;
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+	background:linear-gradient(135deg, #378BA4, #81BECE) ;
+  border-radius: 15px 15px 0px 0px;
+  user-select: none;
+}
+
+.form-wrapper form {	
+  padding: 10px 25px 50px 25px;
+	border-radius: 10px;
+}
+
+.form-wrapper form .field {
+  position: relative;
+  width: 100%;
+	height: 100%;
+  margin-top: 20px;
+}
+
+.form-wrapper form .field input, textarea, button {
+	width: 100%;
+	height: 100%;
+  border-radius: 25px;
+  outline: none;
+  font-size: 20px;
+  padding-left: 20px;
+  border: 1px solid lightblue;
+  transition: all 0.3s ease;
+}
+
+.form-wrapper form .field input:focus, textarea:focus {
+border-color: #4158d0;
+}
+
+.form-wrapper form .field label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  color: #999999;
+  font-weight: 400;
+  font-size: 17px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+form .field input:focus ~ label,
+form .field input:valid ~ label {
+  top: 0%;
+  font-size: 13px;
+  color:#378BA4;
+  background: #fff;
+  transform: translateY(-50%);
+}
+
+form .field input[type="submit"], button[type="submit"] {
+  color: #fff;
+  border: none;
+  padding-left: 0;
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(-135deg, #378BA4, #81BECE);
+  transition: all 0.3s ease;
+}
+
+form .field input[type="submit"]:active {
+  transform: scale(0.95);
+}
+
+.link-field-container {
+  display: flex;
+  justify-content: center;
+}
+
+.link-field {
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.link-field a {
+  margin-left: 5px; 
+}
+
+.navbar-main {
+  background-color: #131921;
+  padding: 4%;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  position: static;
+  float: none;
+  flex-flow: row nowrap;
+}
+
+a {
+  color: #61dafb;
+  text-decoration: none;
+  padding: 5%;
+}
+
+a:hover {
+  size: 1.5em;
+  color: #0dc6f9;
+}
