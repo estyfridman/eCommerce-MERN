@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 //import { HiOutlineUserCircle } from "react-icons/hi";
 import { Navbar, Container } from "react-bootstrap";
@@ -23,9 +23,12 @@ export default function Nav() {
       </LinkContainer>
         </Container>
 
-        <LinkContainer to="/search"  className="d-flex mx-auto align-items-center">
+        <nav to="/search"  className="d-flex mx-auto align-items-center">
             <input type="text"></input>
-        </LinkContainer>
+            <button type="submit"  id="Isearch">
+              <i className="fas fa-search"></i>
+            </button>
+        </nav>
 
       </Navbar>
 

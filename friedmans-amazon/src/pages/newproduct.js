@@ -21,12 +21,12 @@ export default function NewProduct() {
 
 
   const handleUploadProfileImage = async(e)=>{
-    const data = await ImagetoBase64(e.target.files[0])
+    const src = await ImagetoBase64(e.target.files[0])
 
     setProduct((preve)=>{
         return{
           ...preve,
-          image : product
+          image : src
         }
     });
 }
@@ -95,6 +95,10 @@ export default function NewProduct() {
             required
           />          
           <label>Quantity Units In Stock:</label>
+        </div>
+
+        <div>
+          <button onClick={handleUploadProfileImage}></button>
         </div>
         <div  className="field">
           <button type="submit">Create Product</button>
