@@ -10,9 +10,8 @@ import Register from './pages/register';
 import Home from './pages/home';
 import Newproduct from './pages/newproduct';
 import Logout from './pages/logout';
-
-
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from'react-toastify';
 
 axios.defaults.baseURL = 'http://localhost:8040';
 axios.defaults.withCredentials = true;
@@ -21,6 +20,9 @@ function App() {
   return (
     <div className='app'>
     <BrowserRouter>
+    <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false}
+      newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+      
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />

@@ -1,38 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useState, useEffect } from'react';
+import { Col, Row } from'react-bootstrap';
+import Product from '../components/products/product';
 import axios from 'axios';
-
 
 export default function Products() {
 
     const [products, setProducts] = useState([]);
 
-
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get('/products');
-                setProducts(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+        const getProducts = async () => {
+          axios.get("/products").then((res) => setProducts(res.data));};
+    
+        getProducts();
+      },[]);
 
-        fetchProducts();
-    }, []);
 
     return (
         <>
-            <h2>Products</h2>
-            <div>
+            <Row>
                 {products.map((product) => (
-                    <div key={product._id}>
-                        <img src={product.image} alt={product.title} width={100}/>
-                        <h2>{product.title}</h2>
-                        <p>{product.description}</p>
-                        <p>Price: {product.price}</p>
-                    </div>
+                    <Col key={product.token} lg={3} md={4} sm={6} className="mb-3" >
+                        <Product product={product} /> 
+                    </Col>
                 ))}
-            </div>
+            </Row>
         </>
     );
 }

@@ -3,12 +3,21 @@ import { Link } from "react-router-dom";
 import { BiShow, BiHide } from "react-icons/bi";
 import axios from "axios";
 //import {UserContext} from "../contect/UserContext";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
 
+  
+  const navigate = useNavigate();
+  const {search} = useLocation();
+  const redirectInUrl = new URLSearchParams(search).get("redirect");
+  const redirect = redirectInUrl ? redirectInUrl : "/";
+  
   const [showPassword, setShowPassword] = useState(false);
   //const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -22,8 +31,13 @@ export default function Register() {
 
   async function registerUser(e) {
     e.preventDefault();
+    if (password!== confirmpassword) {
+          alert("Passwords do not match");
+          toast.error("Passwords do not match");
+          return;
+        };
     try {
-      await axios.post("/register", {
+      await axios.post("/user/register", {
         name,
         email,
         password,
@@ -82,7 +96,7 @@ export default function Register() {
         </form>
         <div>
           Already a member?
-          <Link to="/login">Login</Link>
+          <Link to={`/`}>Sign in Here</Link>
         </div>
       </div>
     </div>

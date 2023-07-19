@@ -4,8 +4,12 @@ export interface IProduct {
     title: string;
     price: number;
     description: string;
-    quantityUnitsInStock: number;
+    category: string; // write enum
+    countInStock : number;
     image: string;
+    token: string;
+    brand: string;
+    rating: {rate: number, count: number},
     createdAt: Date;
     updatedAt: Date;
     __v: number;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { ImagetoBase64 } from "../components/products/product/ImagetoBase64";
+import { ImagetoBase64 } from "../components/Images/ImagetoBase64";
 
 export default function NewProduct() {
-  const [product, setProduct] = useState({
+  const [productInNew, setProductInNew] = useState({
     title: "",
     price: 0,
     description: "",
@@ -13,7 +13,7 @@ export default function NewProduct() {
   
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevProduct) => ({
+    setProductInNew((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
@@ -23,7 +23,7 @@ export default function NewProduct() {
   const handleUploadProfileImage = async(e)=>{
     const src = await ImagetoBase64(e.target.files[0])
 
-    setProduct((preve)=>{
+    setProductInNew((preve)=>{
         return{
           ...preve,
           image : src
@@ -34,10 +34,10 @@ export default function NewProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/products", product);
+      await axios.post("/products", productInNew);
       alert("Product created successfully");
       // Reset the form
-      setProduct({
+      setProductInNew({
         title: "",
         price: 0,
         description: "",
@@ -58,7 +58,7 @@ export default function NewProduct() {
           <input
             type="text"
             name="title"
-            value={product.title}
+            value={productInNew.title}
             onChange={handleChange}
             required
           />
@@ -69,7 +69,7 @@ export default function NewProduct() {
           <input
             type="number"
             name="price"
-            value={product.price}
+            value={productInNew.price}
             onChange={handleChange}
             required
           />
@@ -80,7 +80,7 @@ export default function NewProduct() {
           <div>Description:</div>
           <textarea
             name="description"
-            value={product.description}
+            value={productInNew.description}
             onChange={handleChange}
             required
           ></textarea>
@@ -90,7 +90,7 @@ export default function NewProduct() {
           <input
             type="number"
             name="quantityUnitsInStock"
-            value={product.quantityUnitsInStock}
+            value={productInNew.quantityUnitsInStock}
             onChange={handleChange}
             required
           />          

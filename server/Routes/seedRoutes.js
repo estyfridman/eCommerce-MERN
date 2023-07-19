@@ -1,18 +1,15 @@
 import express from "express";
-import bcrypt from "bcryptjs";
 
-import User from "../models/User.js";
-import Product from "../models/Product.js";
-import Order from "../models/Order.js";
-
+import User from "../models/UserModel.js";
+import Product from "../models/ProductModel.js";
+import Order from "../models/OrderModel.js";
 import data from "../data.js";
-
 
 const seedRouter = express.Router();
 
 seedRouter.get("/", async (req, res, next) => {
     try {
-        await Product.deleteMany({}); // delete all products
+        await Product.deleteMany({});
         await Order.deleteMany({});
         await User.deleteMany({});
 

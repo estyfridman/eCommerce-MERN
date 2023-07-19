@@ -483,8 +483,7 @@ const data = {
       price: 6.26,
       description: 'Not-Standard USB Charger',
       category: 'Electronics',
-      image:
-        'https://shop.fairphone.com/media/catalog/product/cache/f951d578fe9eab859de9806fdcf92465/1/0/1080x1080_usb_3.2_cable_2_.png',
+      image: 'https://swissbag.co.il/images/itempics/110_28022022161404_large.jpg',
       countInStock: 21,
       token: 'USB Charger 3.2',
       brand: 'Samtongue',
@@ -560,10 +559,21 @@ const data = {
       name: 'Admin',
       email: 'admin@example.com',
       password: bcrypt.hashSync('12345'),
-      _id: '64379be3274e949864ae7779',
-      __v: 0,
-      createdAt: '2023-04-13T06:06:27.929Z',
-      updatedAt: '2023-04-13T06:06:27.929Z',
+    },
+    {
+      name: 'George Washington',
+      email: 'Washington@gmail.com',
+      password: bcrypt.hashSync('Washington1'),
+    },
+    {
+      name: 'George W. Bush',
+      email: 'Bush@gmail.com',
+      password: bcrypt.hashSync('Bush1'),
+    },
+    {
+      name: 'Joe Biden',
+      email: 'Biden@gmail.com',
+      password: bcrypt.hashSync('Biden1'),
     },
   ],
 };
