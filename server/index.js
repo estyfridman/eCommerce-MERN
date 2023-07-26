@@ -20,10 +20,14 @@ app.use("/api/seed", seedRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
 
+
+//app.use((err, req, res, next) => {
+//  res.status(500).send({message: err.message});
+//});
 //"mongodb+srv://Director:DirectorIsu0@ecommercecluster.r4g6ivl.mongodb.net/EstyEcommerce?retryWrites=true&w=majority"
 mongoose.connect(process.env.MONGO_URL)
 .then(() => {
   app.listen(port);
-  console.log(`Server started`);
+  console.log(`Server started on port: ${port}`);
 }).catch((err) => console.log(err));
 

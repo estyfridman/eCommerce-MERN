@@ -14,6 +14,8 @@ export const generateToken = (user) => {
 export const isAuth = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
+    //      const token = authorization.slice(7, authorization.length); 
+
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({ message: "Invalid user name or password" });

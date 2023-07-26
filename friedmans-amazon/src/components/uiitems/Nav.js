@@ -1,12 +1,25 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-//import { HiOutlineUserCircle } from "react-icons/hi";
-import { Navbar, Container } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Navbar, Container, Badge, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Store } from "../../context/Store.jsx";
+import { USER_SIGNOUT } from "../../Reduser/Actions";
 
 export default function Nav() {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const  {state, dispatch: contextDispatch} = useContext(Store);
+  const { cart, userInfo} = state;
+  const { cartItems } = cart;
+
+  const logoutHandler = (event) => {
+    contextDispatch({type: USER_SIGNOUT});
+  };
+
+  const loginHandler = (event) => {
+    event.preventDefault();
+  };
   return (
     <>
     <header className="navbar-all">
@@ -35,7 +48,22 @@ export default function Nav() {
       <div className="navbar-center">
         <Link to="/home">Home</Link>
         <Link to="/products">Products</Link>
-        <Link to="/cart">My Cart</Link>
+        <Link to="/cart" className="nav-link me-4 ms-4">
+          <i className="fas fa-shopping-cart text-white"></i>
+          { cartItems.length > 0 && (
+            <Badge pill bg="danger"> {
+              cartItems.reduce((acc, item) => acc + item.quantity, 0)
+            }</Badge>
+          )}
+        </Link>
+        {
+          userInfo ? (
+            <NavDropdown className="text-white me-5" title={userInfo.name}>
+              <Link to="/" className="dropdown-item" onClick={logoutHandler}> logout
+              </Link>
+            </NavDropdown>
+          ) : (<link to="/login" className="dropdown-item" onClick={loginHandler}>Login</link>)
+          }
         <Link to="/login">Login</Link>
         <Link to="/register">Register</Link>
         

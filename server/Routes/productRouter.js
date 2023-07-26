@@ -50,21 +50,21 @@ productRouter.get(
     const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
-    const category = query.category || "all";
+    const category = query.category || "";
     const price = query.price || "";
     const rating = query.rating || "";
     const order = query.order || "";
     const searchQuery = query.searchQuery || "";
 
-    const queryfilter =
+    const queryFilter =
       searchQuery && searchQuery !== "all"
-        ? { title: { $regex: searchQuery, $options: "i" } }
+        ? { title: { $regex: searchQuery, $options: "i", }, }
         : {};
-    const categoryfilter =
+    const categoryFilter =
       category && category !== "all"
         ? { title: { $regex: category, $options: "i" } }
         : {};
-    const pricefilter =
+    const priceFilter =
       price && price !== "all"
         ? {
             price: {
@@ -73,7 +73,7 @@ productRouter.get(
             },
           }
         : {};
-    const ratingfilter =
+    const ratingFilter =
       rating && rating !== "all" ? { "rating.rate": { $gte: Number() } } : {};
     
       const sortOrder =
@@ -88,10 +88,10 @@ productRouter.get(
         : { _id: -1 };
 
     const products = await Product.find({
-        ...queryfilter,
-        ...categoryfilter,
-        ...pricefilter,
-        ...ratingfilter,
+        ...queryFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...ratingFilter,
             
     }).sort(sortOrder).skip((page - 1) * pageSize).limit(pageSize);
 

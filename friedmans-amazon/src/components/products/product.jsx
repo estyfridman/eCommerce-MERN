@@ -1,36 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
+import { Store } from '../../context/Store.jsx';
+import { useContext } from'react';
+import { AddToCartHandler } from '../../Services/AddToCart.js';
 
 const Product = ({ product }) => {
 
-    //const [amount, setAmount] = useState(0);
-
-    const handleAddProduct = (product) => {
-        console.log(product)
-        //addProduct({ ...product, quantity: 1 });
-        //openCart();
-    }
-
-    // const displayAddToCart = () => {
-    //     if (countInStock > 0) {
-    //         return (
-    //             <div>
-    //                 <div>
-    //                     <button onClick={() => setAmount(amount + 1)}>+</button>
-    //                     {amount}
-    //                     <button onClick={() => setAmount(amount - 1)}>-</button>
-    //                 </div>
-    //                 <button onClick={() => handleAddProduct(product)}>Add to cart</button>
-    //             </div>
-    //         );
-    //     }
-    //     else {
-    //         return (
-    //             <div>Out of stock</div>
-    //         )
-    //     }
-    // }
+    const  {state, dispatch: contextDispatch} = useContext(Store); 
+    const { cart: { cartItems } } = state;
+    const navigate = useNavigate();
 
     return (
         <>
@@ -49,7 +28,9 @@ const Product = ({ product }) => {
                         <Card.Text>{product.price}$</Card.Text>
                         {product.countInStock === 0 ?
                             (<Button variant='light' disabled>Out Of Stock</Button>) :
-                            (<Button className='btn-primary' onClick={() => { handleAddProduct(product) }}>Add To Cart</Button>)}
+                            (<Button className='btn-primary'  onClick={() => { AddToCartHandler(product , cartItems , contextDispatch)}}>Add To Cart
+                            </Button>)
+                        }
                     </Card.Body>
                 </Link>
             </Card>

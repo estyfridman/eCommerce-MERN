@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useReducer } from "react";
-import { StoreReducer } from "../Reduser/StoreReducer";
+import { storeReducer } from "../Reduser/StoreReducer";
 
 export const Store = createContext();
 
@@ -10,7 +10,7 @@ const initState = {
       ? JSON.parse(localStorage.getItem("cartitems"))
       : [],
     shippingAddress: localStorage.getItem("shippingAddress")
-      ? JSON.parse(localStorage.getItem("shipping"))
+      ? JSON.parse(localStorage.getItem("shippingAddress"))
       : {},
     paymentMethod: localStorage.getItem("paymentMethod")
       ? localStorage.getItem("paymentMethod")
@@ -21,11 +21,11 @@ const initState = {
     : null,
 };
 
-export function StoreProvider({ props }) {
-    const [state, dispatch] = useReducer(StoreReducer, initState);
+export function StoreProvider({ children }) {
+    const [state, dispatch] = useReducer(storeReducer, initState);
     const body = {state, dispatch};
 
     return (
-    <Store.Provider value={body}>{props.children}</Store.Provider>
+    <Store.Provider value={body}>{children}</Store.Provider>
     );
 }

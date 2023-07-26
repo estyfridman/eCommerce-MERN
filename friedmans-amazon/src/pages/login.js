@@ -1,46 +1,42 @@
-import React, { useEffect, createContext } from "react";
-import { useState } from "react";
+import React, { useEffect} from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
-//import UserContext from '../contect/UserContext';
 import { Container, Form } from "react-bootstrap";
-import {Store} from "../contect/Store";
+import {Store} from "../context/Store.jsx";
 import { toast } from "react-toastify";
+import { USER_SIGNIN } from "../Reduser/Actions";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const userContext = createContext();
-
   const navigate = useNavigate();
   const {search} = useLocation();
+  const { state, dispatch: ctxDispatch} = useContext(Store);
+  const {userInfo} = state;
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
   
-  const { state, dispatch: ctxDispatch} = userContext(Store);
-  const {userInfo} = state;
-  useEffect(() => {
-    userInfo && navigate(redirect);
-  }, [navigate, redirect, userInfo]);
-
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
     try {
       const { data } = await axios.post("/users/signin", { email, password });
-      ctxDispatch({ type: "USER_SIGNIN", payload: data });
-      navigate(redirect);
+      ctxDispatch({ type: USER_SIGNIN, payload: data });
+      navigate(redirect || "/");
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {theme: "colored", hideProgressBar: true,
+      autoClose: 3000,
+      closeOnClick: true,});
     }
-  }
+  };
 
-  if (redirect) {
-    return <Navigate to={"/"} />;
-  }
+  useEffect(() => {
+    userInfo && navigate(redirect);
+  }, [navigate, redirect, userInfo]);
+
   return (
-    <Container className="form-page">
+    <Container className="form-page small-container">
       <div className="form-wrapper">
         <div className="title">Login</div>
         <Form onSubmit={handleLoginSubmit}>
@@ -53,14 +49,14 @@ export default function Login() {
             <label>Email Address</label>
           </Form.Group>
 
-          <div className="field">
+          <Form.Group className="field">
             <input
               type="password" required
               value={password}
               onChange={(ev) => setPassword(ev.target.value)}
             />
             <label>Password:</label>
-          </div>
+          </Form.Group>
 
           <div className="field">
             <input type="submit" value="Login"></input>
@@ -69,7 +65,7 @@ export default function Login() {
 
         <div className="link-field-container">
           <div className="link-field">Don't have an account?
-            <Link to={`signUp?redirect=${redirect}`}>Register</Link>
+            <Link to={`/register?redirect=${redirect}`}>Register</Link>
           </div>
         </div>
 

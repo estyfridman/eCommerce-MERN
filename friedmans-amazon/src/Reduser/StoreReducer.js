@@ -8,7 +8,7 @@ import {
   USER_SIGNOUT,
 } from "./Actions";
 
-export const StoreReducer = (state, { type, payload }) => {
+export const storeReducer = (state, { type, payload }) => {
   switch (type) {
     case ADD_TO_CART: {
       const newItem = payload;
@@ -50,6 +50,7 @@ export const StoreReducer = (state, { type, payload }) => {
     case USER_SIGNOUT: {
       localStorage.removeItem("userInfo");
       localStorage.removeItem("shippingAddress");
+      localStorage.removeItem('cartItems');
       localStorage.removeItem("paymentMethod");
       return {
         ...state,
