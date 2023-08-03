@@ -1,4 +1,4 @@
-import {GET_SUCCESS, GET_FAIL, GET_REQUEST,} from "./Actions.js";
+import {GET_SUCCESS, GET_FAIL, GET_REQUEST,} from "./Actions";
 
 export const initState = {
     loading: true,
@@ -11,7 +11,7 @@ export const HomePageReducer = (state, {type, payload}) => {
         case GET_REQUEST:
             return {...state, loading: true};
         case GET_SUCCESS:
-            return { ...state, products: payload, loading: false };
+            return { ...state, loading: false, products: payload };
         case GET_FAIL:
             return {...state, loading: false, error: payload};
         default:

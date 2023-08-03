@@ -201,6 +201,12 @@ main {
 .rating span {
   color: #ffc000
 }
+
+
+.rating.stars span {
+  color: #012E4A
+}
+
 .btn-primary,
 .btn-outline-primary {
   background-color: #f0c040;

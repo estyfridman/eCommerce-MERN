@@ -74,9 +74,7 @@ const ShippingAddressPage = () => {
                     />
                 </Form.Group>
                 <Form.Group controlId="postalCode" className='mb-3'>
-
                     <Form.Label>Postal Code</Form.Label>
-
                     <Form.Control
                         type="text"
                         placeholder="your postal code" required

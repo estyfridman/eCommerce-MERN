@@ -8,12 +8,15 @@ import Home from "./pages/home";
 import Newproduct from "./pages/newproduct";
 import Logout from "./pages/logout";
 import ShippingAddressPage from "./pages/ShippingAddressPage";
+import PaymentPage from "./pages/PaymentPage";
+import Account from "./pages/Account";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useContext } from "react";
 import { Store } from "./context/Store";
 import { Container } from "react-bootstrap";
 import Nav from "./components/uiitems/Nav";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   const { state } = useContext(Store);
@@ -21,11 +24,21 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Nav/>
       <div className="d-flex flex-column side-allPage minWidth">
-        <ToastContainer  position="top-center"  limit={1}  hideProgressBar={false}  newestOnTop={false}
-          closeOnClick  rtl={false}  pauseOnFocusLoss  draggable  pauseOnHover  theme="light"
+        <ToastContainer
+          position="top-center"
+          limit={1}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
         />
+
+        <Nav cart={cart}/>
 
         <main>
           <Container className="mt-3">
@@ -39,6 +52,9 @@ function App() {
               <Route path="/newproduct" element={<Newproduct />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/shipping" element={<ShippingAddressPage />} />
+              <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/search" element={<SearchPage />} />
             </Routes>
           </Container>
         </main>

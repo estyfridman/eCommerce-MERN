@@ -10,7 +10,7 @@ export default function Products() {
 
     useEffect(() => {
         const getProducts = async () => {
-          axios.get("/products").then((res) => setProducts(res.data));};
+          await axios.get("/products").then((res) => setProducts(res.data));};
     
         getProducts();
       },[]);

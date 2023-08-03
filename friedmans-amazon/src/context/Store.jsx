@@ -1,31 +1,30 @@
-import { createContext } from "react";
-import { useReducer } from "react";
-import { storeReducer } from "../Reduser/StoreReducer";
+import { createContext, useReducer } from "react";
+import { StoreReducer } from "../Reduser/StoreReducer";
 
 export const Store = createContext();
 
 const initState = {
   cart: {
-    cartitems: localStorage.getItem("cartitems")
-      ? JSON.parse(localStorage.getItem("cartitems"))
+    cartItems: localStorage.getItem('cartItems')
+      ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
-    shippingAddress: localStorage.getItem("shippingAddress")
-      ? JSON.parse(localStorage.getItem("shippingAddress"))
-      : {},
-    paymentMethod: localStorage.getItem("paymentMethod")
-      ? localStorage.getItem("paymentMethod")
+    shippingAddress: localStorage.getItem('shippingAddress')
+      ? JSON.parse(localStorage.getItem('shippingAddress'))
+      : [],
+    paymentMethod: localStorage.getItem('paymentMethod')
+      ? localStorage.getItem('paymentMethod')
       : "",
   },
-  userInfo: localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo"))
+  userInfo: localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
     : null,
 };
 
-export function StoreProvider({ children }) {
-    const [state, dispatch] = useReducer(storeReducer, initState);
+export function StoreProvider( props ) {
+    const [state, dispatch] = useReducer(StoreReducer, initState);
     const body = {state, dispatch};
 
     return (
-    <Store.Provider value={body}>{children}</Store.Provider>
+    <Store.Provider value={body}>{props.children}</Store.Provider>
     );
 }

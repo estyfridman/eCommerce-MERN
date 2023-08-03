@@ -14,7 +14,7 @@ export default function Cart() {
   const navigate = useNavigate();
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=/shipping");
+    navigate("/shipping");
   };
 
   const updateCartHandler = async (item, quantity) => {
@@ -33,6 +33,7 @@ export default function Cart() {
   const removeFromCartHandler = (item) => {
     contextDispatch({ type: REMOVE_FROM_CART, payload: item });
   };
+
   return (
     <div>
       <h2>Shopping Cart</h2>

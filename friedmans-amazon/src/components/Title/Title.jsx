@@ -1,12 +1,10 @@
-
+import { Helmet } from 'react-helmet-async';
 
 const Title = ({ title }) => {
     return (
-        <>
-            <Title>
-                {title}
-            </Title> 
-        </>
+        <Helmet>
+            <title>{title}</title>
+        </Helmet>
     )
 }
 

@@ -5,6 +5,7 @@ import { BiShow, BiHide } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { Store } from "../context/Store.jsx";
 import axios from "axios";
+import { USER_SIGNIN } from "../Reduser/Actions.js";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -23,6 +24,10 @@ export default function Register() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
 
+  useEffect(() => {
+    userInfo && navigate(redirect);
+    }, [navigate, redirect, userInfo]);
+
   const handleShowPassword = () => {
     setShowPassword((preve) => !preve);
   };
@@ -36,7 +41,7 @@ export default function Register() {
       toast.error("Passwords do not match");
       return;
     }
-
+    // to do: test if user is already registered
     try {
       const { data } = await axios.post("/users/signup", {
         name,
@@ -46,7 +51,7 @@ export default function Register() {
       alert("Registration successful. Now you can log in");
 
       ctxDispatch({
-        type: "USER_SIGNIN",
+        type: USER_SIGNIN,
         payload: data,
       });
 
@@ -56,10 +61,6 @@ export default function Register() {
       toast.error(error.message);
     }
   }
-
-  useEffect(() => {
-    userInfo && navigate(redirect);
-    }, [navigate, redirect, userInfo]);
 
   return (
     <Container className="form-page">
