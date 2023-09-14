@@ -1,3 +1,4 @@
+
 export const getFilterUrl = (searchFromUrl, filter, skipPathName) => {
   const searchParams = new URLSearchParams(searchFromUrl);
 
@@ -15,8 +16,10 @@ export const getFilterUrl = (searchFromUrl, filter, skipPathName) => {
   const filterPrice = filter.price || price;
   const filterOrder = filter.order || order;
 
-  let link = `${
-    skipPathName ? '' : '/search?'}category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${filterOrder}&page=${filterPage}`;
+  let link = `${skipPathName ? '' : '/search?'}category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${filterOrder}&page=${filterPage}`;
   
+  // let link = `${skipPathName ? '' : '/search?'}`;
+  // link += `category=${filterCategory}&page=${filterPage}&query=${filterQuery}&order=${filterOrder}&price=${filterPrice}&rating=${filterRating}`;
+
   return link;
 };

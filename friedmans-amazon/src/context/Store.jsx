@@ -20,7 +20,7 @@ const initState = {
     : null,
 };
 
-export function StoreProvider( props ) {
+export default function StoreProvider( props ) {
     const [state, dispatch] = useReducer(StoreReducer, initState);
     const body = {state, dispatch};
 

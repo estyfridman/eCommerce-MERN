@@ -9,8 +9,7 @@ const Total = ({ cartItems, checkoutHandler }) => {
                 <ListGroup variant="flush">
                     <ListGroup.Item>
                         <h3>Subtotal ({cartItems.reduce((acc, item) => acc + item.quantity, 0 )}
-                            {' '}
-                            items)
+                            {' '} items)
                             : {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0 ).toFixed(2)}$</h3>
                     </ListGroup.Item>
 

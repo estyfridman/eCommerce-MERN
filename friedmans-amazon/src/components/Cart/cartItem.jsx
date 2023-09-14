@@ -3,7 +3,8 @@ import MessageBox from "../MessageBox/MessageBox";
 import { Link } from "react-router-dom";
 import { Button, ListGroup, Row, Col } from "react-bootstrap";
 
-const CartItem = ({ cartItems, updateCartHandler, removeCartHandler }) => {
+
+export default function CartItem ({ cartItems, updateCartHandler, removeCartHandler }) {
 
     return (
         <>
@@ -29,16 +30,14 @@ const CartItem = ({ cartItems, updateCartHandler, removeCartHandler }) => {
                                         disabled={item.quantity === 1}>
                                             <i className='fas fa-minus-circle'></i>
                                         </Button>{' '}
-                                        <span>quantity:{item.quantity}</span>{' '}
+                                        <span>quantity:{' '}{item.quantity}</span>{' '}
                                         <Button onClick={() => updateCartHandler(item, item.quantity + 1)} 
                                         variant="light" 
                                         disabled={item.quantity === item.countInStock}>
                                             <i className='fas fa-plus-circle'></i>
                                         </Button>
                                     </Col>
-                                    <Col md={3}>
-                                    {item.price}$
-                                    </Col>
+                                    <Col md={3}> {item.price}$ </Col>
                                     <Col md={2}>
                                         <Button
                                             variant='light'
@@ -54,5 +53,3 @@ const CartItem = ({ cartItems, updateCartHandler, removeCartHandler }) => {
         </>
     )
 }
-
-export default CartItem;

@@ -6,12 +6,6 @@ import { GET_SUCCESS, GET_FAIL } from "../Reduser/Actions";
 import Loading from "../components/Loading/Loading";
 import MessageBox from "../components/MessageBox/MessageBox";
 
-const initialState = {
-  loading: true,
-  error: '',
-  products: [],
-};
-
 export default function Home() {
 
   const [{loading, error, products}, dispatch] = useReducer(HomePageReducer, initState);
@@ -35,7 +29,6 @@ export default function Home() {
           {loading ? (<Loading/>) 
           : error ? ( <MessageBox variant="danger">{error}</MessageBox>) 
           : (<Products products={products}></Products>)}
-          
           </div>
         </>
     );

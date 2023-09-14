@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Store } from "../context/Store";
 import { useNavigate } from "react-router-dom";
-import { Col, Row, Toast, ToastBody } from "react-bootstrap";
+import { Col, Row, Toast } from "react-bootstrap";
 import CartItem from "../components/Cart/cartItem";
 import Total from "../components/Cart/Total";
 import axios from "axios";
@@ -13,9 +13,24 @@ export default function Cart() {
   const { cartItems } = cart;
   const navigate = useNavigate();
 
+  
   const checkoutHandler = () => {
-    navigate("/shipping");
-  };
+    navigate("/signin?redirect=/shipping");
+}
+
+  // const checkoutHandler = () => {
+  //   const user = localStorage.getItem('userInfo');
+  //   console.log(user);
+  //   try {
+  //     if (user) {
+  //       navigate('/shipping');
+  //     }else {
+  //       navigate('/login');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const updateCartHandler = async (item, quantity) => {
     try {
@@ -24,7 +39,7 @@ export default function Cart() {
         Toast.error("Sorry, out of stock");
         return;
       }
-      contextDispatch({ rtpe: ADD_TO_CART, payload: { ...item, quantity } });
+      contextDispatch({ type: ADD_TO_CART, payload: { ...item, quantity } });
     } catch (error) {
       contextDispatch({ type: GET_FAIL, payload: error.message });
     }

@@ -1,78 +1,92 @@
-import React, { useContext, useEffect, useReducer } from 'react';
-import { useContext } from 'react-router-dom';
-import { GET_FAIL, GET_REQUEST, GET_SUCCESS } from '../Reduser/Actions';
-import { Store } from '../context/Store';
-import { Row, Col, ListGroup,Button } from 'react-bootstrap';
-import CheckoutSteps from "../components/CheckoutSteps/CheckoutSteps";
-import Title from "../components/Title/Title"; 
-import  { toast } from 'react-toastify';
-import'react-toastify/dist/ReactToastify.css';
-import { Link, useNavigate } from'react-router-dom';
-import { } from 'react-r';
+import { useReducer, useContext, useEffect } from 'react';
+import { Store } from "../context/Store.jsx";
+import { useNavigate, Link } from 'react-router-dom';
+import { Button, Card, Col, Row, ListGroup } from "react-bootstrap";
+import axios from "axios";
+import { CREATE_FAILED, CREATE_REQUEST, CREATE_SUCCEEDED, CLEAR_CART} from '../Reduser/Actions.js';
+import { toast } from 'react-toastify';
+import CheckoutSteps from '../components/CheckoutSteps/CheckoutSteps';
+import Loading from '../components/Loading/Loading.jsx'
 
 const reducer = (state, { type }) => {
     switch (type) {
-        case GET_REQUEST:
-            return { ...state, loading: true };
-        case GET_SUCCESS:
-            return { ...state, loading: false };
-        case GET_FAIL:
-            return { ...state, loading: false };
-        default:
-            return state;
+      case CREATE_REQUEST:
+        return { ...state, loading: true };
+      case CREATE_SUCCEEDED:
+        return { ...state, loading: false };
+      case CREATE_FAILED:
+        return { ...state, loading: false };
+  
+      default:
+        return state;
     }
-};
+  };
+  
 
-const PlaceOrder = () => {
+export default function SubmitOrderPage(){
+
     const [{ loading }, dispatch] = useReducer(reducer, { loading: false });
-    const { state, disptach: ctxDispatch } = useContext(Store);
-    const navigate = useNavigate();
+
+    const { state, dispatch: storeDispatch } = useContext(Store);
     const { cart, userInfo } = state;
     const { paymentMethod } = cart;
+    const navigate = useNavigate();
 
-    const submitOrder = async (e) => {
-        try {
-            e.preventDefault();
-            dispatch({ type: GET_REQUEST });
-            const { data } = await axios.post("/orders", 
-            {
-              orderItems: cart.cartItems,
-              shippingAddress: cart.shippingAddress,
-              paymentMethod: cart.paymentMethod,
-              itemsPrice : cart.itemsPrice,
-              shippingPrice : cart.shippingPrice,
-              taxPrice : cart.taxPrice,
-              totalPrice : cart.totalPrice
-            },
-            {
-              headers: { authorization: userInfo.token },
-            }
-            );
-            dispatch({ type: GET_SUCCESS});
-            ctxDispatch({ type: CLEAR_CART})
-            //localStorage.removeItem('cartItems');
-            navigate(`/order/${data.order._id}`);
-      
-          } catch (error) {
-              dispatch({ type: GET_FAIL });
-              toast.error(error.message);
-          }
-        };
+    
+    async function submitOrderHandler(e){
+      e.preventDefault();
+      try {
+        dispatch({ type: CREATE_REQUEST });//ctxDispatch
 
-    const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
-    cart.itemsPrice = round2(cart.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0));
-    cart.taxPrice = round2(cart.itemsPrice * 0.17);
-    cart.shippingPrice = round2(cart.itemsPrice > 50 ? cart.itemsPrice * 0.1 : cart.itemsPrice * 0.05);
-    cart.totalPrice = round2(cart.itemsPrice + cart.taxPrice + cart.shippingPrice);
+      const { data } = await axios.post(
+        '/orders/',
+        {    //bodyParameters
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        },
+        {
+          headers: { authorization: userInfo.token },
+        }
+      );
 
-    useEffect(() => {
-        if (!paymentMethod)
-        navigate("/payment");
-    }, []);
+      dispatch({ type: CREATE_SUCCEEDED });
 
-    return (
-        <div>
-      <Title title="Orders Summary" />
+      storeDispatch({ type: CLEAR_CART });
+
+      localStorage.removeItem('cartItems');
+
+      navigate(`/order/${data.order._id}`);
+    } catch (err) {
+      dispatch({ type: CREATE_FAILED });
+      toast.error(err.message);
+    }
+  };
+
+  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
+
+  cart.itemsPrice = round2(
+    cart.cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
+  );
+  cart.taxPrice = round2(cart.itemsPrice * 0.17);
+  cart.shippingPrice =
+    cart.itemsPrice > 50
+      ? round2(cart.itemsPrice * 0.1)
+      : round2(cart.itemsPrice * 0.02);
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+
+  useEffect(() => {
+    if (!paymentMethod) {
+      navigate('/payment');
+    }
+  }, [cart, navigate, paymentMethod]);
+
+  return (
+    <div>
       <CheckoutSteps step1 step2 step3 step4 />
       <h1 className="my-3">Orders Summary</h1>
       <Row>
@@ -167,7 +181,7 @@ const PlaceOrder = () => {
                   <div className="d-grid">
                     <Button
                       type="button"
-                      onClick={submitOrder}
+                      onClick={submitOrderHandler}
                       disabled={cart.cartItems.length === 0}
                     >
                       Submit
@@ -181,7 +195,5 @@ const PlaceOrder = () => {
         </Col>
       </Row>
     </div>
-    )
+  );
 }
-
-export default PlaceOrder

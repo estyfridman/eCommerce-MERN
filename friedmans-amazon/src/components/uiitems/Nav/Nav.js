@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Navbar, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Store } from "../../context/Store.jsx";
-import { USER_SIGNIN, USER_SIGNOUT } from "../../Reduser/Actions";
-import SearchBox from "../../components/Search/SearchBox.jsx";
+import { Store } from "../../../context/Store.jsx";
+import { USER_SIGNIN, USER_SIGNOUT } from "../../../Reduser/Actions.js";
+import SearchBox from "../../Search/SearchBox.jsx";
+import './Nav.css';
 
 export default function Nav() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ console.log(cartItems);
         <Link to="/home">Home</Link>
         <Link to="/products">Products</Link>
 
-        <SearchBox/>
+        <SearchBox className='searchbox-component'/>
 
         <Link to="/cart" className="nav-link me-4 ms-4">
           <i className="fas fa-shopping-cart text-white"></i>

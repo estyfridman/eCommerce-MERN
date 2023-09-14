@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useReducer } from 'react';
-import searchPageReducer from '../Services/utillsSearch';
+import { prices, ratings } from '../Services/utillsSearch';
+import { searchPageReducer, initStateSearch } from '../Reduser/searchPageReducer';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Col, Row, Button } from 'react-bootstrap';
 import { getFilterUrl } from '../Services/getFilterUrl';
 import { GET_FAIL, GET_SUCCESS, GET_REQUEST } from '../Reduser/Actions';
 import axios from 'axios';
 import Title from '../components/Title/Title';
-import { prices, ratings } from '../Services/utillsSearch';
 import Rating from '../components/Rating/Rating';
 import '../components/Search/SearchPage.css';
 import Loading from '../components/Loading/Loading';
@@ -16,15 +16,13 @@ import Product from '../components/products/product'
 import { LinkContainer } from "react-router-bootstrap";
 import { toast } from "react-toastify";
 
-const SearchPage = () => {
+export default function SearchPage() {
 
-    const [{ loading, error, products, pages, countProducts }, dispatch] = useReducer(searchPageReducer, {
-        loading: true,
-        error: '',
-    });
+    const [{ loading, error, products, pages, countProducts }, dispatch] = useReducer(searchPageReducer, initStateSearch);
 
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
+
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
 
@@ -58,7 +56,7 @@ const SearchPage = () => {
             }
         };
         getData();
-    }, []);
+    }, [query, category, price, rating, order, page]);
 
     return (
         <div>
@@ -75,7 +73,7 @@ const SearchPage = () => {
                             </li>
                             {categories.map((c) => (
                                 <li key={c}>
-                                    <Link className={c === category ? 'text-bold' : ''} to={getFilterUrl(search, { category: 'c' })}>
+                                    <Link className={c === category ? 'text-bold' : ''} to={getFilterUrl(search, { category: c })}>
                                         {c}
                                     </Link>
 
@@ -89,8 +87,7 @@ const SearchPage = () => {
                             <li>
                                 <Link
                                     className={'all' === price ? 'text-bold' : ''}
-                                    to={getFilterUrl(search, { price: 'all' })}
-                                >
+                                    to={getFilterUrl(search, { price: 'all' })}>
                                     Any
                                 </Link>
                             </li>
@@ -158,42 +155,40 @@ const SearchPage = () => {
                                             </select>
                                         </Col>
                                     </Row>
-                                    {products.length === 0 && ( <MessageBox>No Product Found</MessageBox>)}
+                                    {products.length === 0 && (<MessageBox>No Product Found</MessageBox>)}
 
                                     <Row>
-                {products.map((product) => (
-                  <Col sm={6} lg={4} mb={3} key={product._id}>
-                    <Product product={product}></Product>
-                  </Col>
-                ))}
-              </Row>
-              
-              <div>
-                {[...Array(pages).keys()].map((x) => (
-                  <LinkContainer
-                    key={x + 1}
-                    className="mx-1"
-                    to={{
-                      pathname: '/search',
-                      search: getFilterUrl(search, { page: x + 1 }, true),
-                    }}
-                  >
-                    <Button
-                      className={Number(page) === x + 1 ? 'current-page-number' : ''
-                      }
-                      variant="light"
-                    >
-                      {x + 1}
-                    </Button>
-                  </LinkContainer>
-                ))}
-              </div>
+                                        {products.map((product) => (
+                                            <Col sm={6} lg={4} mb={3} key={product._id}>
+                                                <Product product={product}></Product>
+                                            </Col>
+                                        ))}
+                                    </Row>
+
+                                    <div>
+                                        {[...Array(pages).keys()].map((x) => (
+                                            <LinkContainer
+                                                key={x + 1}
+                                                className="mx-1"
+                                                to={{
+                                                    pathname: '/search',
+                                                    search: getFilterUrl(search, { page: x + 1 }, true),
+                                                }}
+                                            >
+                                                <Button
+                                                    className={Number(page) === x + 1 ? 'current-page-number' : ''
+                                                    }
+                                                    variant="light"
+                                                >
+                                                    {x + 1}
+                                                </Button>
+                                            </LinkContainer>
+                                        ))}
+                                    </div>
                                 </>
                             )}
                 </Col>
             </Row>
         </div>
-    )
+    );
 }
-
-export default SearchPage;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Form, FormControl, InputGroup } from 'react-bootstrap';
 import { getFilterUrl } from '../../Services/getFilterUrl';
 
 const SearchBox = () => {
@@ -31,18 +30,17 @@ const SearchBox = () => {
 
 
     return (
-        <div>SearchBox
-            <Form onSubmit={submitHandler}>
-                <InputGroup >
-                <FormControl area-aria-describedby='button-search' type='text'
-                    onChange={(e) => setQuery(e.target.value)} placeholder='Search'>
+        <div className='searchbox'>
+            <form onSubmit={submitHandler}>
+                <input type='text'
+                    onChange={(e) => setQuery(e.target.value)} 
+                    placeholder='Search'>
 
-                </FormControl>
-                <Button type='submit' id='button-search'>
+                </input>
+                <button type='submit' id='button-search'>
                     <i className='fas fa-search'></i>
-                </Button>
-                </InputGroup>
-            </Form>
+                </button>
+            </form>
         </div>
     )
 };

@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Form, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Store } from "../context/Store.jsx";
 import { SAVE_SHIPPING_ADDRESS } from '../Reduser/Actions';
 import CheckoutSteps from '../components/CheckoutSteps/CheckoutSteps';
-import {Button} from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
 
-const ShippingAddressPage = () => {
-    const nevigate = useNavigate();
+export default function ShippingAddressPage() {
+    const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { userInfo, cart: { shippingAddress } } = state;
 
@@ -16,6 +16,12 @@ const ShippingAddressPage = () => {
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || '');
     const [country, setCountry] = useState(shippingAddress.country || '');
 
+    useEffect(() => {
+        if (!userInfo) {
+          navigate('/signin?redirect=/shipping');
+        }
+      }, [userInfo, navigate]);
+    
     const submitHandler = (e) => {
         e.preventDefault();
         ctxDispatch({
@@ -25,21 +31,22 @@ const ShippingAddressPage = () => {
                 address,
                 city,
                 postalCode,
-                country
-            }
+                country,
+            },
         });
-        nevigate('/payment');
+        localStorage.setItem('shippingAddress', JSON.stringify({
+            fullName,
+            address,
+            city,
+            postalCode,
+            country,
+          })
+        );
+        navigate('/payment');
     };
-
-    useEffect(() => {
-        if (!userInfo) {
-            nevigate(`/login?redirect=/shipping`);
-        }
-    }, [])
 
     return (
         <div>
-            <h2>to change costom title Shipping Address</h2>
             <CheckoutSteps step1 step2></CheckoutSteps>
             <div className='container small-container'></div>
             <h4>Shipping Address</h4>
@@ -97,7 +104,5 @@ const ShippingAddressPage = () => {
                 </div>
             </Form>
         </div>
-    )
+    );
 }
-
-export default ShippingAddressPage

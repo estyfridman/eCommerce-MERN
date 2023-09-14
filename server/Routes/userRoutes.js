@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/UserModel.js";
 import { generateToken, isAuth } from "../utiles.js";
 
+
 const userRouter = express.Router();
 
 userRouter.post(
@@ -41,7 +42,10 @@ userRouter.post(
       email: email,
       password: bcrypt.hashSync(password),
     });
+
       const user = await newUser.save();
+      //const token = jwt.sign({ _id: user._id, name: user.name, email: user.email }, process.env.JWT_SECRET);
+
       return res.send({
         _id: user._id,
         name: user.name,
@@ -61,3 +65,4 @@ userRouter.get("/", isAuth, async (req, res) => {
 });
 
 export default userRouter;
+

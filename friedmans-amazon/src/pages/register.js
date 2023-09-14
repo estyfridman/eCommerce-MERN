@@ -48,8 +48,7 @@ export default function Register() {
         email,
         password,
       });
-      alert("Registration successful. Now you can log in");
-
+      toast.success('Registration successful', )
       ctxDispatch({
         type: USER_SIGNIN,
         payload: data,

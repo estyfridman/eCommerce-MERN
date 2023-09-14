@@ -45,7 +45,7 @@ productRouter.get(
 );
 
 productRouter.get(
-  "/searchProducts",
+  "/search",
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
@@ -56,13 +56,16 @@ productRouter.get(
     const order = query.order || "";
     const searchQuery = query.searchQuery || "";
 
+    //const { pageSize, page, category, price, rating, order, searchQuery } = req.query;
+
+
     const queryFilter =
       searchQuery && searchQuery !== "all"
-        ? { title: { $regex: searchQuery, $options: "i", }, }
+        ? { title: { $regex: searchQuery, $options: "i"}}
         : {};
     const categoryFilter =
       category && category !== "all"
-        ? { title: { $regex: category, $options: "i" } }
+        ? { category}
         : {};
     const priceFilter =
       price && price !== "all"
@@ -74,7 +77,7 @@ productRouter.get(
           }
         : {};
     const ratingFilter =
-      rating && rating !== "all" ? { "rating.rate": { $gte: Number() } } : {};
+      rating && rating !== "all" ? { "rating.rate": { $gte: Number(rating) } } : {};
     
       const sortOrder =
       order === "lowest"
@@ -95,8 +98,14 @@ productRouter.get(
             
     }).sort(sortOrder).skip((page - 1) * pageSize).limit(pageSize);
 
-    const countProduct = products.length;
-    res.send({products, page, countProduct, pages:Math.ceil(countProduct / pageSize)});
+
+    const countProducts = await Product.countDocuments({
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    });
+        res.send({products, countProducts, page, pages:Math.ceil(countProducts / pageSize)});
   })
 );
 

@@ -4,18 +4,11 @@
   padding: 0;
 }
 
-body,
-html {
-  display: grid;
-  grid-template-rows: 1fr 8fr 1fr; 
+body{
   height: 100%;
   width: 100%;
 }
 
-.navbar-all {
-  background-color: #012E4A;
-  padding: 3%;
-}
 
 .navbar-left img {
   width: 20px;
@@ -50,7 +43,6 @@ html {
 .footer-left {
   margin-left: 20%;
 }
-/*place-items: center;*/
 
 .form-page {
 	margin: 0;
