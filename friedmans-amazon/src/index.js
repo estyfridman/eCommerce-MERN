@@ -8,7 +8,7 @@ import { HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import StoreProvider from "./context/Store.jsx";
 
-axios.defaults.baseURL = "http://localhost:8040/api";//REACT_API_URL
+axios.defaults.baseURL = process.env.REACT_API_URL;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
