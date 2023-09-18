@@ -11,7 +11,10 @@ dotenv.config();
 const port = process.env.PORT || 8040;
 
 const app = express();
-app.use(cors());  
+app.use(cors({
+  origin: '*',
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -20,9 +23,9 @@ app.use("/api/seed", seedRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
 
-app.use((err, req, res, next) => {
-  res.status(500).send({message: err.message});
-});
+// app.use((err, req, res, next) => {
+//   res.status(500).send({message: err.message});
+// });
 
 mongoose.connect(process.env.MONGO_URL)
 .then(() => {

@@ -18,20 +18,6 @@ export default function Cart() {
     navigate("/signin?redirect=/shipping");
 }
 
-  // const checkoutHandler = () => {
-  //   const user = localStorage.getItem('userInfo');
-  //   console.log(user);
-  //   try {
-  //     if (user) {
-  //       navigate('/shipping');
-  //     }else {
-  //       navigate('/login');
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const updateCartHandler = async (item, quantity) => {
     try {
       const { data } = await axios.get(`/products/id/${item._id}`);
@@ -45,7 +31,7 @@ export default function Cart() {
     }
   };
 
-  const removeFromCartHandler = (item) => {
+  const removeItemHandler = (item) => {
     contextDispatch({ type: REMOVE_FROM_CART, payload: item });
   };
 
@@ -57,7 +43,7 @@ export default function Cart() {
           <CartItem
             cartItems={cartItems}
             updateCartHandler={updateCartHandler}
-            removeFromCartHandler={removeFromCartHandler}
+            removeCartHandler={removeItemHandler}
           ></CartItem>
         </Col>
         <Col md={4}>

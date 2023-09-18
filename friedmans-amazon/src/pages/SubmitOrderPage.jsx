@@ -3,43 +3,43 @@ import { Store } from "../context/Store.jsx";
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Card, Col, Row, ListGroup } from "react-bootstrap";
 import axios from "axios";
-import { CREATE_FAILED, CREATE_REQUEST, CREATE_SUCCEEDED, CLEAR_CART} from '../Reduser/Actions.js';
+import { CREATE_FAILED, CREATE_REQUEST, CREATE_SUCCEEDED, CLEAR_CART } from '../Reduser/Actions.js';
 import { toast } from 'react-toastify';
 import CheckoutSteps from '../components/CheckoutSteps/CheckoutSteps';
 import Loading from '../components/Loading/Loading.jsx'
 
 const reducer = (state, { type }) => {
-    switch (type) {
-      case CREATE_REQUEST:
-        return { ...state, loading: true };
-      case CREATE_SUCCEEDED:
-        return { ...state, loading: false };
-      case CREATE_FAILED:
-        return { ...state, loading: false };
-  
-      default:
-        return state;
-    }
-  };
-  
+  switch (type) {
+    case CREATE_REQUEST:
+      return { ...state, loading: true };
+    case CREATE_SUCCEEDED:
+      return { ...state, loading: false };
+    case CREATE_FAILED:
+      return { ...state, loading: false };
 
-export default function SubmitOrderPage(){
+    default:
+      return state;
+  }
+};
 
-    const [{ loading }, dispatch] = useReducer(reducer, { loading: false });
 
-    const { state, dispatch: storeDispatch } = useContext(Store);
-    const { cart, userInfo } = state;
-    const { paymentMethod } = cart;
-    const navigate = useNavigate();
+export default function SubmitOrderPage() {
 
-    
-    async function submitOrderHandler(e){
-      e.preventDefault();
-      try {
-        dispatch({ type: CREATE_REQUEST });//ctxDispatch
+  const [{ loading }, dispatch] = useReducer(reducer, { loading: false });
+
+  const { state, dispatch: storeDispatch } = useContext(Store);
+  const { cart, userInfo } = state;
+  const { paymentMethod } = cart;
+  const navigate = useNavigate();
+
+
+  async function submitOrderHandler(e) {
+    e.preventDefault();
+    try {
+      dispatch({ type: CREATE_REQUEST });//ctxDispatch
 
       const { data } = await axios.post(
-        '/orders/',
+        '/orders',
         {    //bodyParameters
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,
@@ -50,17 +50,17 @@ export default function SubmitOrderPage(){
           totalPrice: cart.totalPrice,
         },
         {
-          headers: { authorization: userInfo.token },
-        }
+          headers: {
+            authorization: userInfo.token,
+          },
+        },
       );
 
       dispatch({ type: CREATE_SUCCEEDED });
 
-      storeDispatch({ type: CLEAR_CART });
-
-      localStorage.removeItem('cartItems');
-
-      navigate(`/order/${data.order._id}`);
+        storeDispatch({ type: CLEAR_CART });
+        localStorage.removeItem('cartItems');
+        navigate(`/order/${data.order._id}`);
     } catch (err) {
       dispatch({ type: CREATE_FAILED });
       toast.error(err.message);

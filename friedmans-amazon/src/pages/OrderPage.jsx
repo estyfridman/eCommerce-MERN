@@ -11,8 +11,7 @@ import axios from "axios";
 
 export default function OrderPage() {
 
-    const { state, dispatch: contextDispatch } = useContext(Store);
-    const userInfo = state;
+    const { state: { userInfo } } = useContext(Store);
     const params = useParams();
     const { id: orderId } = params;
     const naviagte = useNavigate();
@@ -21,13 +20,20 @@ export default function OrderPage() {
 
     useEffect(() => {
         const getOrder = async () => {
+
             dispatch({ type: GET_REQUEST });
 
             try {
-                const { data } = await axios.get(`/orders/${orderId}`, {
-                    headers: { authorization: `Bearer ${userInfo.token}` },
-                });
-                dispatch({ type: GET_SUCCESS, payload: data });
+                if (userInfo && userInfo.token) {
+                    const { data } = await axios.get(`/orders/${orderId}`, {
+                        headers: {
+                            authorization: userInfo.token,
+                        },
+                      },
+                      );
+                    dispatch({ type: GET_SUCCESS, payload: data });
+                 }
+                
             } catch (err) {
                 dispatch({ type: GET_FAIL, payload: err });
             }
@@ -35,7 +41,7 @@ export default function OrderPage() {
         if (!userInfo) {
             naviagte('/login');
         }
-        if (!order || (order._id && orderId !== order._id)) {
+        if (!order || (order._id && orderId !== order._id) || !userInfo) {
             getOrder();
         }
     }, [naviagte, order, orderId, userInfo]);

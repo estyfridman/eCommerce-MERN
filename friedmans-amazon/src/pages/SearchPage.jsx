@@ -49,7 +49,7 @@ export default function SearchPage() {
         const getData = async () => {
             dispatch({ type: GET_REQUEST });
             try {
-                const { data } = await axios.get(`products/search?` + getFilterUrl(search, { filterPrice: '1-50' }, true));
+                const { data } = await axios.get(`/products/search?` + getFilterUrl(search, { filterPrice: '1-50' }, true));
                 dispatch({ type: GET_SUCCESS, payload: data });
             } catch (error) {
                 dispatch({ type: GET_FAIL, payload: error.message });

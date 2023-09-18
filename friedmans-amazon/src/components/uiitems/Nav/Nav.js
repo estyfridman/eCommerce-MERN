@@ -61,8 +61,8 @@ console.log(cartItems);
             </NavDropdown>
           ) : (
             <NavDropdown className="text-white me-5" title='welcome' id="basic-nav-dropdown">
-            <Link to="/login" className="dropdown-item" onClick={loginHandler}>Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/login" onClick={loginHandler} className="dropdown-item" >Login</Link>
+            <Link to="/register" className="dropdown-item" >Register</Link>
             </NavDropdown>
             )
           }
