@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getFilterUrl } from '../../Services/getFilterUrl';
+import './SearchBox.css';
 
 const SearchBox = () => {
     const [query, setQuery] = useState('');
@@ -30,11 +31,11 @@ const SearchBox = () => {
 
 
     return (
-        <div className='searchbox'>
+        <div className='searchbox form'>
             <form onSubmit={submitHandler}>
                 <input type='text'
                     onChange={(e) => setQuery(e.target.value)} 
-                    placeholder='Search'>
+                    placeholder='Search' className='search-input'>
 
                 </input>
                 <button type='submit' id='button-search'>

@@ -1,0 +1,30 @@
+
+
+/* Search */
+
+.results{
+    display: inline;
+}
+
+.results button{
+    width: 40px;
+    margin-left: 10px;
+    padding-left: 0;
+    border: 0 #fff solid;
+    background-color: #fff;
+}
+
+.results-row {
+    padding: 0 0 10px 0;
+}
+.search-page ul {
+    list-style: none; 
+  }
+
+.text-bold {
+    font-weight: bold;
+}
+
+.rating span {
+    color: #db9943;
+}

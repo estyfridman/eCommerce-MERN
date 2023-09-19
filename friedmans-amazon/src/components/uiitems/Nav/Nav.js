@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Navbar, Container, NavDropdown } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { Navbar, NavDropdown } from "react-bootstrap";
 import { Store } from "../../../context/Store.jsx";
 import { USER_SIGNIN, USER_SIGNOUT } from "../../../Reduser/Actions.js";
 import SearchBox from "../../Search/SearchBox.jsx";
@@ -39,19 +38,18 @@ console.log(cartItems);
         {location.pathname !== '/' ? <p>Back</p> : <i className="fa fa-home text-white "> </i>}
         </Link>
         
-        <Container>
-        <LinkContainer to="/" className="navbar-left">
+        <div className="img-container">
+        <Link to="/">
         <img src="https://companieslogo.com/img/orig/AMZN_BIG.D-8fb0be81.png?t=1632523695" alt="my logo"  width={100}/>
-      </LinkContainer>
-        </Container>
+      </Link>
+        </div>
         <Link to="/home">Home</Link>
         <Link to="/products">Products</Link>
 
-        <SearchBox className='searchbox-component'/>
+        <SearchBox/>
 
         <Link to="/cart" className="nav-link me-4 ms-4">
           <i className="fas fa-shopping-cart text-white"></i>
-         
         </Link>
         {
           userInfo ? (
@@ -66,9 +64,7 @@ console.log(cartItems);
             </NavDropdown>
             )
           }
-        
       </Navbar>
-
     </header>
     </>
   );

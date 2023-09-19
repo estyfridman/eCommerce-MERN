@@ -9,7 +9,7 @@ import { GET_FAIL, GET_SUCCESS, GET_REQUEST } from '../Reduser/Actions';
 import axios from 'axios';
 import Title from '../components/Title/Title';
 import Rating from '../components/Rating/Rating';
-import '../components/Search/SearchPage.css';
+import './pages.css';
 import Loading from '../components/Loading/Loading';
 import MessageBox from '../components/MessageBox/MessageBox';
 import Product from '../components/products/product'
@@ -59,7 +59,7 @@ export default function SearchPage() {
     }, [query, category, price, rating, order, page]);
 
     return (
-        <div>
+        <div className='search-page'>
             <Title>Search </Title>
             <Row>
                 <Col md={3}>
@@ -102,15 +102,13 @@ export default function SearchPage() {
                             ))}
                         </ul>
                     </div>
-                    <div>
+                    <div className='reviews'>
                         <h3>Reviews</h3>
                         <ul>
                             {ratings.map((r) => (
                                 <li key={r.name}>
                                     <Link
-                                        to={getFilterUrl(search, { rating: r.rating })}
-                                        className={`${r.rating}` === `${rating}` ? 'start' : ''}
-                                    >
+                                        to={getFilterUrl(search, { rating: r.value })}>
                                         <Rating caption=' ' rating={r.value}></Rating>
                                     </Link>
                                 </li>
@@ -123,9 +121,9 @@ export default function SearchPage() {
                         : error ? (<MessageBox variant="danger">{error}</MessageBox>)
                             : (
                                 <>
-                                    <Row>
-                                        <Col md={2}>
-                                            <div>
+                                    <Row className='results-row'>
+                                        <Col>
+                                            <div className='results'>
                                                 {countProducts === '0' ? 'No' : countProducts} Results
                                                 {query !== 'all' && ' : ' + query}
                                                 {category !== 'all' && ' : ' + category}

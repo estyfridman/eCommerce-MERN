@@ -18,6 +18,7 @@ import { useContext } from "react";
 import { Store } from "./context/Store";
 import { Container } from "react-bootstrap";
 import Nav from "./components/uiitems/Nav/Nav";
+import Myfooter from './components/uiitems/Myfooter'
 import SearchPage from "./pages/SearchPage";
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column side-allPage minWidth">
+      <div className="d-flex flex-column side-allPage">
         <ToastContainer
           position="top-center"
           limit={1}
@@ -65,6 +66,7 @@ function App() {
           </Container>
         </main>
       </div>
+    <Myfooter/>
     </BrowserRouter>
   );
 }
